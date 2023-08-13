@@ -8,6 +8,7 @@ import { User } from './interface/user';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  users: User[];
   private user: User = {
       "id": 1,
       "name": "Mirian Surmanidze",
@@ -55,7 +56,10 @@ export class AppComponent implements OnInit {
   onGetUsers(): void {
     this.userService.getUsers().subscribe(
       {
-        next: (response) => {console.table(response)},
+        next: (response) => {
+          console.table(response);
+          this.users = response;
+        },
         error: (error) => {console.log(error)},
         complete: () => {console.log('complete')},
       }

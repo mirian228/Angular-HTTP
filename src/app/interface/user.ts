@@ -6,6 +6,7 @@ export interface User {
   name: string;
   username: string;
   email: string;
+  isAdmin? : boolean;
   address: Address;
   phone: string;
   website: string;
