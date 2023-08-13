@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interface/user';
 import { Observable } from 'rxjs';
 
@@ -13,7 +13,10 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}/users`);
+    let myHeaders = new HttpHeaders({'myheader': 'headervalue'});
+    myHeaders = myHeaders.set('id', '1234');
+    myHeaders = myHeaders.append('id', '0000');
+    return this.http.get<User[]>(`${this.baseUrl}/users`, {headers: myHeaders});
   }
 
   getUser(): Observable<User> {
@@ -32,8 +35,8 @@ export class UserService {
     return this.http.patch<User>(`${this.baseUrl}/users/${user.id}`, user);
   }
 
-  deleteUser(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.baseUrl}/users/${id}`);
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/users/${id}`);
   }
 
   
