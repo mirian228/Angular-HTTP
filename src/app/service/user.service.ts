@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from '../interface/user';
 import { Observable } from 'rxjs';
 
@@ -9,14 +9,17 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   private baseUrl: string = "https://jsonplaceholder.typicode.com";
-
+  readonly moreParams = ['test1', 'test2'];
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
     let myHeaders = new HttpHeaders({'myheader': 'headervalue'});
-    myHeaders = myHeaders.set('id', '1234');
-    myHeaders = myHeaders.append('id', '0000');
-    return this.http.get<User[]>(`${this.baseUrl}/users`, {headers: myHeaders});
+    myHeaders = myHeaders.set('id', '1234');  // Overrides ( deletes older and sets new)
+    myHeaders = myHeaders.append('id', '0000'); // Adds 
+    const theParams = {['testList']: this.moreParams}
+    let myParams = new HttpParams({fromObject: theParams}).set('page', 5).set('sort', 'true'); // baseurl/page=5&sort=true
+    myParams = myParams.append('name', 'junior');  // baseurl/page=5&sort=true&name=junior
+    return this.http.get<User[]>(`${this.baseUrl}/users`, {headers: myHeaders, params: myParams});
   }
 
   getUser(): Observable<User> {
