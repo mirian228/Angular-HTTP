@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpEvent } from '@angular/common/http';
 import { User } from '../interface/user';
-import { Observable, map, retry, tap } from 'rxjs';
+import { Observable, catchError, map, of, retry, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,12 @@ export class UserService {
         name: user.name.toUpperCase(),
         image: `${this.defaultImage}/${user.username.toLowerCase()}`,
         isAdmin: user.id === 10? 'admin' : 'user'
-      })))
-    );
+      }))),
+      catchError( (error: any) => {
+        console.log(error);
+        return of([]);
+      })
+      );
   } 
 
   getUser(): Observable<User> {
