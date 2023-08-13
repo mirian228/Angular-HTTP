@@ -13,6 +13,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Picture</th>
                         <th>Name</th>
                         <th>Username</th>
                         <th>Email</th>
@@ -24,6 +25,9 @@
                 <tbody *ngFor="let user of users; let number = index">
                     <tr>
                         <td>#{{ number + 1}}</td>
+                        <td>
+                            <img [src]="user.image" height="50px" width="50px" class="avatar" alt="avatar">
+                        </td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>

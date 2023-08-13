@@ -9,6 +9,8 @@ import { Observable, map, tap } from 'rxjs';
 export class UserService {
   private baseUrl: string = "https://jsonplaceholder.typicode.com";
   readonly moreParams = ['test1', 'test2']; // values (constructor has key)
+  readonly defaultImage = 'https://robohash.org/';
+  
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
@@ -18,7 +20,8 @@ export class UserService {
       map(users => users.map(user => ({
         ...user,
         name: user.name.toUpperCase(),
-        isAdmin: user.id === 10
+        image: `${this.defaultImage}/${user.username.toLowerCase()}`,
+        isAdmin: user.id === 10? 'admin' : 'user'
       })))
     );
   } 

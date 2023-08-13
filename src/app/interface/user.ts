@@ -6,9 +6,10 @@ export interface User {
   name: string;
   username: string;
   email: string;
-  isAdmin? : boolean;
-  address: Address;
+  isAdmin? : string;
+  address?: Address;
+  image?: string;
   phone: string;
   website: string;
-  company: Company;
+  company?: Company;
 }
