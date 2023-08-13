@@ -45,10 +45,10 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService) {}
   ngOnInit(): void {
     //this.onUpdateUser();
-    this.onPatchUser();
+    //this.onPatchUser();
     this.onGetUsers();
-    this.onDeleteUser();
-    //this.onGetUser();
+    //this.onDeleteUser();
+    this.onGetUser();
     //this.onCreateUser();
   }
 

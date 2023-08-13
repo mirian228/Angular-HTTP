@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpEvent } from '@angular/common/http';
 import { User } from '../interface/user';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   private baseUrl: string = "https://jsonplaceholder.typicode.com";
-  readonly moreParams = ['test1', 'test2'];
+  readonly moreParams = ['test1', 'test2']; // values (constructor has key)
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
@@ -20,10 +20,10 @@ export class UserService {
     let myParams = new HttpParams({fromObject: theParams}).set('page', 5).set('sort', 'true'); // baseurl/page=5&sort=true
     myParams = myParams.append('name', 'junior');  // baseurl/page=5&sort=true&name=junior
     return this.http.get<User[]>(`${this.baseUrl}/users`, {headers: myHeaders, params: myParams});
-  }
+  } 
 
-  getUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/users/1`);
+  getUser(): Observable<HttpEvent<User>> {
+    return this.http.get<User>(`${this.baseUrl}/users/1`, {observe: 'events'});
   }
 
   createUser(user: User): Observable<User> {
