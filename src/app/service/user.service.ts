@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpEvent } from '@angular/common/http';
 import { User } from '../interface/user';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, retry, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,8 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/users`)
     .pipe(
-      tap(users => console.log(users)),
+      retry(2), // try-s 2 times to call this api
+      tap(users => console.log(users)),  // just returns copy of the response
       map(users => users.map(user => ({
         ...user,
         name: user.name.toUpperCase(),
@@ -29,7 +30,9 @@ export class UserService {
   getUser(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/users/1`)
     .pipe(
-      tap(users => console.log(users))
+      map(user => {
+        return { ...user, isAdmin: 'admin'}
+      })
     );
   }
 
